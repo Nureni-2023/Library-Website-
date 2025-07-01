@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Library - Your Gateway to Knowledge</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom styles for the body and default font */
+        body {
+            font-family: 'Inter', sans-serif;
+            @apply bg-gray-50 text-gray-800;
+        }
+        /* Hide sections by default, show only the active one */
+        .section-content {
+            display: none;
+        }
+        /* Style for active navigation link */
+        .nav-link.active {
+            @apply text-blue-600 font-semibold border-b-2 border-blue-600;
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header Section -->
+    <header class="bg-white shadow-md py-4 px-6 sticky top-0 z-50">
+        <div class="container mx-auto flex flex-wrap items-center justify-between">
+            <!-- Logo and Site Title -->
+            <a href="#" class="flex items-center space-x-2 text-2xl font-bold text-blue-700" onclick="showSection('home'); return false;">
+                <!-- Simple Book Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-blue-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5V15a2.5 2.5 0 0 1 5 0v4.5"></path>
+                    <path d="M12 12v7.5"></path>
+                    <path d="M12 12a2.5 2.5 0 0 0 5 0v7.5"></path>
+                    <path d="M19 4a2 2 0 0 0-2 2v13.5"></path>
+                    <path d="M22 4a2 2 0 0 0-2 2v13.5"></path>
+                    <path d="M11 4a2 2 0 0 0-2 2v13.5"></path>
+                    <path d="M4 19.5a2.5 2.5 0 0 1-2.5-2.5v-10A2.5 2.5 0 0 1 4 4.5h16A2.5 2.5 0 0 1 22.5 7v10A2.5 2.5 0 0 1 20 19.5H4z"></path>
+                </svg>
+                <span>Modern Library</span>
+            </a>
+
+            <!-- Navigation Links (Hidden on small screens, shown with toggle) -->
+            <nav id="main-nav" class="hidden md:flex flex-grow justify-center space-x-4 mt-4 md:mt-0">
+                <a href="#" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200" data-section="home">Home</a>
+                <a href="#" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200" data-section="catalog">Catalog</a>
+                <a href="#" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200" data-section="digital-library">Digital Library</a>
+                <a href="#" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200" data-section="events">Events</a>
+                <a href="#" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200" data-section="services">Services</a>
+                <a href="#" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200" data-section="news-blog">News & Blog</a>
+                <a href="#" class="nav-link text-gray-600 hover:text-blue-600 px-3 py-2 rounded-md transition-colors duration-200" data-section="contact">Contact Us</a>
+            </nav>
+
+            <!-- User Account and Mobile Menu Toggle -->
+            <div class="flex items-center space-x-4 mt-4 md:mt-0">
+                <div id="user-controls" class="flex items-center space-x-4">
+                    <!-- Login/Register button (visible when not logged in) -->
+                    <button id="login-btn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md transition-colors duration-200" onclick="showSection('user-account');">Login / Register</button>
+                    <!-- User Dashboard button (visible when logged in) -->
+                    <button id="dashboard-btn" class="hidden bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md transition-colors duration-200" onclick="showSection('user-account');">Dashboard</button>
+                    <!-- Logout button (visible when logged in) -->
+                    <button id="logout-btn" class="hidden bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md transition-colors duration-200" onclick="logoutUser();">Logout</button>
+                </div>
+                <!-- Mobile Menu Toggle Button -->
+                <button id="mobile-menu-toggle" class="md:hidden text-gray-600 hover:text-blue-600 focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu (hidden by default) -->
+        <div id="mobile-nav-menu" class="hidden md:hidden mt-4 bg-white rounded-md shadow-lg py-2">
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100" data-section="home">Home</a>
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100" data-section="catalog">Catalog</a>
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100" data-section="digital-library">Digital Library</a>
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100" data-section="events">Events</a>
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100" data-section="services">Services</a>
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100" data-section="news-blog">News & Blog</a>
+            <a href="#" class="block px-4 py-2 text-gray-800 hover:bg-gray-100" data-section="contact">Contact Us</a>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow container mx-auto p-6">
+
+        <!-- Message Box for notifications -->
+        <div id="message-box" class="fixed bottom-4 right-4 bg-blue-500 text-white px-6 py-3 rounded-md shadow-lg z-50 hidden" role="alert">
+            <span id="message-text"></span>
+            <button class="ml-4 text-white font-bold" onclick="document.getElementById('message-box').classList.add('hidden');">&times;</button>
+        </div>
+
+        <!-- Home Section -->
+        <section id="home-section" class="section-content active">
+            <div class="relative bg-gradient-to-r from-blue-600 to-purple-600 text-white py-20 px-6 rounded-lg shadow-lg mb-12 overflow-hidden">
+                <div class="absolute inset-0 opacity-10">
+                    <!-- Background pattern SVG -->
+                    <svg class="w-full h-full" fill="none" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                        <path d="M0 0H100V100H0V0ZM50 0V100ZM0 50H100Z" stroke="currentColor" stroke-width="0.5" opacity="0.3"></path>
+                        <circle cx="25" cy="25" r="10" fill="currentColor" opacity="0.2"></circle>
+                        <circle cx="75" cy="75" r="10" fill="currentColor" opacity="0.2"></circle>
+                    </svg>
+                </div>
+                <div class="relative z-10 text-center">
+                    <h1 class="text-4xl md:text-5xl font-extrabold mb-4 animate-fade-in-down">Welcome to Your Modern Library!</h1>
+                    <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto animate-fade-in-up">Explore a world of knowledge, connect with your community, and discover new stories.</p>
+                    <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="#" class="bg-white text-blue-700 hover:bg-gray-100 px-8 py-3 rounded-full text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105" onclick="showSection('catalog'); return false;">Explore Catalog</a>
+                        <a href="#" class="bg-transparent border-2 border-white text-white hover:bg-white hover:text-blue-700 px-8 py-3 rounded-full text-lg font-semibold shadow-lg transition-all duration-300 transform hover:scale-105" onclick="showSection('events'); return false;">View Events</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                <a href="#" class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center" onclick="showSection('catalog'); return false;">
+                    <svg class="h-12 w-12 text-blue-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13.458a.75.75 0 01-1.066.602l-2.433-1.442a.75.75 0 00-.973.078l-2.433 2.433a.75.75 0 01-1.066.06L3 18.298V6.253a2.25 2.25 0 012.25-2.25h13.5a2.25 2.25 0 012.25 2.25v11.045a.75.75 0 01-1.066.602l-2.433-1.442a.75.75 0 00-.973.078l-2.433 2.433a.75.75 0 01-1.066.06L12 18.298z"></path></svg>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Catalog</h3>
+                    <p class="text-gray-600">Find your next read</p>
+                </a>
+                <a href="#" class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center" onclick="showSection('user-account'); return false;">
+                    <svg class="h-12 w-12 text-green-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Membership</h3>
+                    <p class="text-gray-600">Manage your account</p>
+                </a>
+                <a href="#" class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center" onclick="showSection('events'); return false;">
+                    <svg class="h-12 w-12 text-purple-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h.01M12 11h.01M15 11h.01M7 16h.01M12 16h.01M15 16h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Events</h3>
+                    <p class="text-gray-600">Join our programs</p>
+                </a>
+                <a href="#" class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center" onclick="showSection('contact'); return false;">
+                    <svg class="h-12 w-12 text-red-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Contact Us</h3>
+                    <p class="text-gray-600">Get in touch</p>
+                </a>
+            </div>
+
+            <!-- Search Bar (prominently displayed) -->
+            <div class="bg-white p-8 rounded-lg shadow-lg mb-12">
+                <h2 class="text-3xl font-bold text-center text-gray-900 mb-6">Search Our Catalog</h2>
+                <div class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                    <input type="text" id="home-search-input" placeholder="Search for books, authors, or topics..." class="flex-grow p-4 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-lg">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg text-lg font-semibold transition-colors duration-200 shadow-md" onclick="performSearchFromHome();">Search</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Catalog Search & Browse Section -->
+        <section id="catalog-section" class="section-content">
+            <h2 class="text-4xl font-bold text-gray-900 mb-8 text-center">Library Catalog</h2>
+
+            <div class="flex flex-col lg:flex-row gap-8">
+                <!-- Filters Sidebar -->
+                <aside class="w-full lg:w-1/4 bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="text-2xl font-semibold text-gray-900 mb-6">Filters</h3>
+
+                    <div class="mb-6">
+                        <label for="filter-genre" class="block text-gray-700 font-medium mb-2">Genre</label>
+                        <select id="filter-genre" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">All Genres</option>
+                            <option value="Fiction">Fiction</option>
+                            <option value="Non-fiction">Non-fiction</option>
+                            <option value="Science Fiction">Science Fiction</option>
+                            <option value="Fantasy">Fantasy</option>
+                            <option value="Mystery">Mystery</option>
+                            <option value="Thriller">Thriller</option>
+                            <option value="Biography">Biography</option>
+                            <option value="History">History</option>
+                            <option value="Self-Help">Self-Help</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="filter-author" class="block text-gray-700 font-medium mb-2">Author</label>
+                        <input type="text" id="filter-author" placeholder="e.g., Jane Austen" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="filter-language" class="block text-gray-700 font-medium mb-2">Language</label>
+                        <select id="filter-language" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">All Languages</option>
+                            <option value="English">English</option>
+                            <option value="Spanish">Spanish</option>
+                            <option value="French">French</option>
+                            <option value="German">German</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="filter-year" class="block text-gray-700 font-medium mb-2">Publication Year</label>
+                        <input type="number" id="filter-year" placeholder="e.g., 2020" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="filter-availability" class="block text-gray-700 font-medium mb-2">Availability</label>
+                        <select id="filter-availability" class="w-full p-3 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">All</option>
+                            <option value="Available">Available Now</option>
+                            <option value="On Loan">On Loan</option>
+                            <option value="Digital">Digital Only</option>
+                        </select>
+                    </div>
+
+                    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-semibold transition-colors duration-200" onclick="applyFilters();">Apply Filters</button>
+                </aside>
+
+                <!-- Search Results Area -->
+                <div class="w-full lg:w-3/4">
+                    <div class="flex items-center mb-6">
+                        <input type="text" id="catalog-search-input" placeholder="Search catalog..." class="flex-grow p-3 border border-gray-300 rounded-l-md focus:ring-blue-500 focus:border-blue-500">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-r-md transition-colors duration-200" onclick="performCatalogSearch();">Search</button>
+                    </div>
+
+                    <div id="catalog-results" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                        <!-- Book cards will be dynamically loaded here -->
+                    </div>
+                    <p id="no-results-message" class="text-center text-gray-600 mt-8 hidden">No books found matching your criteria.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Book Details Modal -->
+        <div id="book-details-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white rounded-lg shadow-xl max-w-3xl w-full p-8 relative max-h-[90vh] overflow-y-auto">
+                <button class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-3xl font-bold" onclick="closeBookDetailsModal();">&times;</button>
+                <div class="flex flex-col md:flex-row gap-6">
+                    <div class="md:w-1/3 flex-shrink-0">
+                        <img id="book-cover" src="" alt="Book Cover" class="w-full h-auto rounded-md shadow-lg mb-4">
+                        <button id="borrow-button" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-semibold transition-colors duration-200">Borrow / Reserve</button>
+                    </div>
+                    <div class="md:w-2/3">
+                        <h3 id="book-title" class="text-3xl font-bold text-gray-900 mb-2"></h3>
+                        <p id="book-author" class="text-xl text-gray-700 mb-4"></p>
+                        <p id="book-genre" class="text-gray-600 mb-2"></p>
+                        <p id="book-year" class="text-gray-600 mb-2"></p>
+                        <p id="book-language" class="text-gray-600 mb-4"></p>
+                        <p id="book-summary" class="text-gray-800 leading-relaxed mb-6"></p>
+                        <p id="book-status" class="text-lg font-semibold mb-4"></p>
+
+                        <h4 class="text-2xl font-semibold text-gray-900 mb-3">Reviews</h4>
+                        <div id="book-reviews" class="space-y-4 mb-6">
+                            <!-- Reviews will be dynamically loaded here -->
+                        </div>
+
+                        <h4 class="text-2xl font-semibold text-gray-900 mb-3">Related Books</h4>
+                        <div id="related-books" class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            <!-- Related books will be dynamically loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Account Section -->
+        <section id="user-account-section" class="section-content">
+            <h2 class="text-4xl font-bold text-gray-900 mb-8 text-center">Your Account</h2>
+
+            <!-- Login/Registration Form -->
+            <div id="auth-form" class="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md mb-12">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-6 text-center">Login or Register</h3>
+                <form id="login-register-form" onsubmit="handleAuth(event);">
+                    <div class="mb-4">
+                        <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                        <input type="email" id="email" class="shadow appearance-none border rounded-md w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="your@example.com" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password:</label>
+                        <input type="password" id="password" class="shadow appearance-none border rounded-md w-full py-3 px-4 text-gray-700 mb-3 leading-tight focus:outline-none focus:ring-blue-500 focus:border-blue-500" placeholder="********" required>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-md focus:outline-none focus:shadow-outline transition-colors duration-200">Login / Register</button>
+                        <a href="#" class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Forgot Password?</a>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Member Dashboard -->
+            <div id="member-dashboard" class="hidden bg-white p-8 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold text-gray-900 mb-6">Welcome, <span id="user-display-email"></span>!</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Borrowed Items -->
+                    <div>
+                        <h4 class="text-xl font-semibold text-gray-800 mb-4">Currently Borrowed Items</h4>
+                        <div id="borrowed-items" class="space-y-4">
+                            <!-- Borrowed items will be dynamically loaded here -->
+                            <p class="text-gray-600" id="no-borrowed-message">You currently have no borrowed items.</p>
+                        </div>
+                    </div>
+
+                    <!-- Borrowing History -->
+                    <div>
+                        <h4 class="text-xl font-semibold text-gray-800 mb-4">Borrowing History</h4>
+                        <div id="borrowing-history" class="space-y-4">
+                            <!-- Borrowing history will be dynamically loaded here -->
+                            <p class="text-gray-600" id="no-history-message">No borrowing history yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Digital Library Section -->
+        <section id="digital-library-section" class="section-content">
+            <h2 class="text-4xl font-bold text-gray-900 mb-8 text-center">Digital Library</h2>
+
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <p class="text-lg text-gray-700 mb-6">Access our extensive collection of e-books, audiobooks, and research articles. Read online or download for offline access.</p>
+
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4">E-books</h3>
+                <div id="ebook-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- E-books will be dynamically loaded here -->
+                </div>
+
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4">Audiobooks</h3>
+                <div id="audiobook-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Audiobooks will be dynamically loaded here -->
+                </div>
+
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4">Research Articles</h3>
+                <div id="article-list" class="space-y-4">
+                    <!-- Research articles will be dynamically loaded here -->
+                </div>
+
+                <div class="mt-8 p-6 bg-blue-50 rounded-lg border border-blue-200">
+                    <h4 class="text-xl font-semibold text-blue-800 mb-3">External Digital Platforms</h4>
+                    <p class="text-blue-700 mb-4">We also provide access to a wide range of resources through our partners:</p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="https://www.overdrive.com/" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-semibold transition-colors duration-200">OverDrive</a>
+                        <a href="https://libbyapp.com/" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-semibold transition-colors duration-200">Libby</a>
+                        <a href="https://www.jstor.org/" target="_blank" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-semibold transition-colors duration-200">JSTOR</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Events & Programs Section -->
+        <section id="events-section" class="section-content">
+            <h2 class="text-4xl font-bold text-gray-900 mb-8 text-center">Events & Programs</h2>
+
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <p class="text-lg text-gray-700 mb-6">Discover our exciting calendar of workshops, book clubs, lectures, and community events.</p>
+
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4">Upcoming Events</h3>
+                <div id="events-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Events will be dynamically loaded here -->
+                </div>
+                <p id="no-events-message" class="text-center text-gray-600 mt-8 hidden">No upcoming events at the moment. Please check back later!</p>
+            </div>
+        </section>
+
+        <!-- Event Details Modal -->
+        <div id="event-details-modal" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white rounded-lg shadow-xl max-w-3xl w-full p-8 relative max-h-[90vh] overflow-y-auto">
+                <button class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-3xl font-bold" onclick="closeEventDetailsModal();">&times;</button>
+                <h3 id="event-modal-title" class="text-3xl font-bold text-gray-900 mb-2"></h3>
+                <p id="event-modal-date" class="text-lg text-gray-700 mb-2"></p>
+                <p id="event-modal-time" class="text-gray-600 mb-2"></p>
+                <p id="event-modal-location" class="text-gray-600 mb-4"></p>
+                <p id="event-modal-description" class="text-gray-800 leading-relaxed mb-6"></p>
+                <button id="register-event-button" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-semibold transition-colors duration-200" onclick="registerForEvent();">Register for Event</button>
+            </div>
+        </div>
+
+        <!-- Library Services Section -->
+        <section id="services-section" class="section-content">
+            <h2 class="text-4xl font-bold text-gray-900 mb-8 text-center">Library Services</h2>
+
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <p class="text-lg text-gray-700 mb-6">We offer a wide range of services to support your learning, research, and community engagement.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                    <div class="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">Book Reservations</h3>
+                        <p class="text-gray-700 mb-4">Place a hold on items that are currently on loan or not yet available. You'll be notified when your reserved item is ready for pickup.</p>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md font-semibold transition-colors duration-200" onclick="showMessage('Feature: Book Reservation system would be integrated here.');">Learn More</button>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">Inter-Library Loans</h3>
+                        <p class="text-gray-700 mb-4">Can't find a book in our collection? We can request it from other libraries through our inter-library loan service.</p>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md font-semibold transition-colors duration-200" onclick="showMessage('Feature: Inter-Library Loan request form would be here.');">Request a Loan</button>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">Community Outreach</h3>
+                        <p class="text-gray-700 mb-4">Our library is actively involved in community programs, literacy initiatives, and partnerships. Learn how we serve beyond our walls.</p>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md font-semibold transition-colors duration-200" onclick="showMessage('Feature: Details about community programs.');">Discover Programs</button>
+                    </div>
+                    <div class="p-6 bg-gray-50 rounded-lg border border-gray-200">
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-3">Meeting Room Bookings</h3>
+                        <p class="text-gray-700 mb-4">Need a quiet space for study or a meeting? Our library offers various meeting rooms available for booking by members.</p>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md font-semibold transition-colors duration-200" onclick="showMessage('Feature: Meeting room booking system.');">Book a Room</button>
+                    </div>
+                </div>
+
+                <h3 class="text-2xl font-semibold text-gray-900 mb-4">Frequently Asked Questions (FAQs)</h3>
+                <div id="faq-accordion" class="space-y-4">
+                    <!-- FAQs will be dynamically loaded here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- News & Blog Section -->
+        <section id="news-blog-section" class="section-content">
+            <h2 class="text-4xl font-bold text-gray-900 mb-8 text-center">News & Blog</h2>
+
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <p class="text-lg text-gray-700 mb-6">Stay updated with the latest library news, insightful book reviews, and helpful reading tips.</p>
+
+                <div id="news-blog-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- News and blog posts will be dynamically loaded here -->
+                </div>
+                <p id="no-news-message" class="text-center text-gray-600 mt-8 hidden">No news or blog posts yet. Check back soon!</p>
+            </div>
+        </section>
+
+        <!-- Contact Us Section -->
+        <section id="contact-section" class="section-content">
+            <h2 class="text-4xl font-bold text-gray-900 mb-8 text-center">Contact Us</h2>
+
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <p class="text-lg text-gray-700 mb-6 text-center">Have a question? We're here to help!</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Contact Form -->
+                    <div>
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-4">Send us a Message</h3>
+                        <form id="contact-form" onsubmit="submitContactForm(event);">
+                            <div class="mb-4">
+                                <label for="contact-name" class="block text-gray-700 text-sm font-bold mb-2">Name:</label>
+                                <input type="text" id="contact-name" class="shadow appearance-none border rounded-md w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="contact-email" class="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+                                <input type="email" id="contact-email" class="shadow appearance-none border rounded-md w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                            </div>
+                            <div class="mb-6">
+                                <label for="contact-message" class="block text-gray-700 text-sm font-bold mb-2">Message:</label>
+                                <textarea id="contact-message" rows="5" class="shadow appearance-none border rounded-md w-full py-3 px-4 text-gray-700 leading-tight focus:outline-none focus:ring-blue-500 focus:border-blue-500" required></textarea>
+                            </div>
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-md focus:outline-none focus:shadow-outline transition-colors duration-200">Send Message</button>
+                        </form>
+                    </div>
+
+                    <!-- Other Contact Info & Social Media -->
+                    <div>
+                        <h3 class="text-2xl font-semibold text-gray-900 mb-4">Other Ways to Connect</h3>
+                        <div class="mb-6">
+                            <p class="text-gray-700 mb-2"><strong>Address:</strong> 123 Library Lane, Bookville, TX 78701</p>
+                            <p class="text-gray-700 mb-2"><strong>Phone:</strong> (555) 123-4567</p>
+                            <p class="text-gray-700 mb-2"><strong>Email:</strong> info@modernlibrary.org</p>
+                        </div>
+
+                        <h4 class="text-xl font-semibold text-gray-900 mb-3">Live Chat</h4>
+                        <p class="text-gray-700 mb-4">Our live chat is available during library operating hours (Mon-Fri, 9 AM - 5 PM).</p>
+                        <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-md font-semibold transition-colors duration-200" onclick="showMessage('Feature: Live chat integration would open here.');">Start Chat</button>
+
+                        <h4 class="text-xl font-semibold text-gray-900 mb-3 mt-6">Connect with Us!</h4>
+                        <div class="flex space-x-4">
+                            <a href="https://facebook.com" target="_blank" class="text-gray-600 hover:text-blue-600 transition-colors duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878V14.89h-2.54V12h2.54V9.797c0-2.505 1.492-3.891 3.776-3.891 1.094 0 2.24.195 2.24.195v2.459h-1.264c-1.248 0-1.637.779-1.637 1.562V12h2.773l-.443 2.89h-2.33V22c4.781-.75 8.438-4.887 8.438-9.878 0-5.523-4.477-10-10-10z"/></svg>
+                            </a>
+                            <a href="https://twitter.com" target="_blank" class="text-gray-600 hover:text-blue-400 transition-colors duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor"><path d="M22.46 6c-.77.34-1.6.56-2.46.66.89-.53 1.57-1.37 1.88-2.37-.83.49-1.76.85-2.75 1.04-1.56-1.66-4.08-1.74-5.74-.18-1.03 1.03-1.6 2.45-1.6 3.96 0 .31.03.62.08.91-4.06-.2-7.66-2.16-10.07-5.13-.42.72-.66 1.56-.66 2.46 0 1.7.87 3.21 2.19 4.09-.8-.02-1.55-.25-2.2-.6v.03c0 2.37 1.69 4.35 3.92 4.8-.41.11-.84.17-1.28.17-.31 0-.61-.03-.91-.09.62 1.94 2.42 3.36 4.56 3.4-1.68 1.32-3.8 2.11-6.1 2.11-.39 0-.77-.02-1.15-.07 2.17 1.39 4.76 2.21 7.54 2.21 9.05 0 14-7.49 14-14 0-.22-.01-.44-.01-.66.96-.69 1.79-1.56 2.45-2.55z"/></svg>
+                            </a>
+                            <a href="https://instagram.com" target="_blank" class="text-gray-600 hover:text-pink-600 transition-colors duration-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.16 4.79 1.48 4.95 4.79.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.16 3.252-1.48 4.79-4.79 4.95-.058.012-1.266.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.16-4.79-1.48-4.95-4.79-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.16-3.252 1.48-4.79 4.79-4.95.058-.012 1.266-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.22-6.78 2.64-7.001 7.001-.058 1.28-.072 1.688-.072 4.947s.014 3.667.072 4.947c.22 4.358 2.64 6.78 7.001 7.001 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c4.358-.22 6.78-2.64 7.001-7.001.058-1.28.072-1.688.072-4.947s-.014-3.667-.072-4.947c-.22-4.358-2.64-6.78-7.001-7.001-1.28-.058-1.688-.072-4.947-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.444.647-1.444 1.443s.647 1.443 1.444 1.443 1.444-.647 1.444-1.443-.647-1.443-1.444-1.443z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Panel Section (Placeholder) -->
+        <section id="admin-panel-section" class="section-content">
+            <h2 class="text-4xl font-bold text-gray-900 mb-8 text-center">Admin Panel (Placeholder)</h2>
+
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <p class="text-lg text-gray-700 mb-6">This section would house the backend system for managing:</p>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li>Book Inventory Management (Add, Edit, Delete Books)</li>
+                    <li>Member Account Management (View, Edit, Suspend Members)</li>
+                    <li>Event Registration Management</li>
+                    <li>Website Analytics Dashboard</li>
+                    <li>Content Management for News/Blog</li>
+                </ul>
+                <p class="mt-6 text-gray-600">In a real application, this would be a secure, password-protected area accessible only to library staff, likely with a separate login and robust backend integration.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-800 text-white py-8 px-6 mt-12">
+        <div class="container mx-auto text-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h4 class="text-xl font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-blue-400 transition-colors duration-200" onclick="showSection('catalog'); return false;">Catalog</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors duration-200" onclick="showSection('events'); return false;">Events</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors duration-200" onclick="showSection('services'); return false;">Services</a></li>
+                        <li><a href="#" class="hover:text-blue-400 transition-colors duration-200" onclick="showSection('contact'); return false;">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold mb-4">Contact Info</h4>
+                    <p class="text-gray-300">123 Library Lane, Bookville, TX 78701</p>
+                    <p class="text-gray-300">Phone: (555) 123-4567</p>
+                    <p class="text-gray-300">Email: info@modernlibrary.org</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-semibold mb-4">Follow Us</h4>
+                    <div class="flex justify-center space-x-4">
+                        <a href="https://facebook.com" target="_blank" class="text-gray-300 hover:text-blue-600 transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878V14.89h-2.54V12h2.54V9.797c0-2.505 1.492-3.891 3.776-3.891 1.094 0 2.24.195 2.24.195v2.459h-1.264c-1.248 0-1.637.779-1.637 1.562V12h2.773l-.443 2.89h-2.33V22c4.781-.75 8.438-4.887 8.438-9.878 0-5.523-4.477-10-10-10z"/></svg>
+                        </a>
+                        <a href="https://twitter.com" target="_blank" class="text-gray-300 hover:text-blue-400 transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor"><path d="M22.46 6c-.77.34-1.6.56-2.46.66.89-.53 1.57-1.37 1.88-2.37-.83.49-1.76.85-2.75 1.04-1.56-1.66-4.08-1.74-5.74-.18-1.03 1.03-1.6 2.45-1.6 3.96 0 .31.03.62.08.91-4.06-.2-7.66-2.16-10.07-5.13-.42.72-.66 1.56-.66 2.46 0 1.7.87 3.21 2.19 4.09-.8-.02-1.55-.25-2.2-.6v.03c0 2.37 1.69 4.35 3.92 4.8-.41.11-.84.17-1.28.17-.31 0-.61-.03-.91-.09.62 1.94 2.42 3.36 4.56 3.4-1.68 1.32-3.8 2.11-6.1 2.11-.39 0-.77-.02-1.15-.07 2.17 1.39 4.76 2.21 7.54 2.21 9.05 0 14-7.49 14-14 0-.22-.01-.44-.01-.66.96-.69 1.79-1.56 2.45-2.55z"/></svg>
+                        </a>
+                        <a href="https://instagram.com" target="_blank" class="text-gray-300 hover:text-pink-600 transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.16 4.79 1.48 4.95 4.79.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.16 3.252-1.48 4.79-4.79 4.95-.058.012-1.266.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.16-4.79-1.48-4.95-4.79-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.16-3.252 1.48-4.79 4.79-4.95.058-.012 1.266-.07 4.85-.07zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.22-6.78 2.64-7.001 7.001-.058 1.28-.072 1.688-.072 4.947s.014 3.667.072 4.947c.22 4.358 2.64 6.78 7.001 7.001 1.28.058 1.688.072 4.947.072s3.667-.014 4.947-.072c4.358-.22 6.78-2.64 7.001-7.001.058-1.28.072-1.688.072-4.947s-.014-3.667-.072-4.947c-.22-4.358-2.64-6.78-7.001-7.001-1.28-.058-1.688-.072-4.947-.072zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.444.647-1.444 1.443s.647 1.443 1.444 1.443 1.444-.647 1.444-1.443-.647-1.443-1.444-1.443z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <p class="text-center text-gray-400 mt-8">&copy; 2024 Modern Library. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Global UI Elements ---
+        const sections = document.querySelectorAll('.section-content');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileNavMenu = document.getElementById('mobile-nav-menu');
+        const loginBtn = document.getElementById('login-btn');
+        const dashboardBtn = document.getElementById('dashboard-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const authForm = document.getElementById('auth-form');
+        const memberDashboard = document.getElementById('member-dashboard');
+        const userDisplayEmail = document.getElementById('user-display-email');
+        const borrowedItemsContainer = document.getElementById('borrowed-items');
+        const borrowingHistoryContainer = document.getElementById('borrowing-history');
+        const noBorrowedMessage = document.getElementById('no-borrowed-message');
+        const noHistoryMessage = document.getElementById('no-history-message');
+        const catalogResultsContainer = document.getElementById('catalog-results');
+        const noResultsMessage = document.getElementById('no-results-message');
+        const bookDetailsModal = document.getElementById('book-details-modal');
+        const eventDetailsModal = document.getElementById('event-details-modal');
+        const eventsListContainer = document.getElementById('events-list');
+        const noEventsMessage = document.getElementById('no-events-message');
+        const newsBlogListContainer = document.getElementById('news-blog-list');
+        const noNewsMessage = document.getElementById('no-news-message');
+        const ebookListContainer = document.getElementById('ebook-list');
+        const audiobookListContainer = document.getElementById('audiobook-list');
+        const articleListContainer = document.getElementById('article-list');
+        const faqAccordion = document.getElementById('faq-accordion');
+        const messageBox = document.getElementById('message-box');
+        const messageText = document.getElementById('message-text');
+
+        // --- Simulated Data (In a real app, this would come from a backend/database) ---
+        let currentUser = null; // Stores logged-in user's email
+
+        const books = [
+            {
+                id: 'b1',
+                title: 'The Midnight Library',
+                author: 'Matt Haig',
+                genre: 'Fiction',
+                language: 'English',
+                year: 2020,
+                cover: 'https://placehold.co/150x225/A78BFA/ffffff?text=Midnight+Library',
+                summary: 'Between life and death, there is a library. When Nora Seed finds herself faced with the possibility of changing her life for a new one, following a different career, undoing old breakups, or fulfilling her dreams of becoming a glaciologist, she must search within herself as she travels through the Midnight Library to decide what is truly fulfilling in life, and what makes it worth living in the first place.',
+                reviews: [
+                    { user: 'Reader123', rating: 5, comment: 'Absolutely brilliant and thought-provoking!' },
+                    { user: 'Bookworm', rating: 4, comment: 'A unique concept, highly recommend.' }
+                ],
+                status: 'Available'
+            },
+            {
+                id: 'b2',
+                title: 'Atomic Habits',
+                author: 'James Clear',
+                genre: 'Self-Help',
+                language: 'English',
+                year: 2018,
+                cover: 'https://placehold.co/150x225/3B82F6/ffffff?text=Atomic+Habits',
+                summary: 'An easy and proven way to build good habits and break bad ones. This book will reshape the way you think about progress and success, and give you the tools and strategies you need to transform your habits.',
+                reviews: [
+                    { user: 'ProductivityGuru', rating: 5, comment: 'Life-changing! Simple, actionable advice.' },
+                    { user: 'NewReader', rating: 4, comment: 'Very practical, seeing results already.' }
+                ],
+                status: 'On Loan',
+                dueDate: '2025-07-15'
+            },
+            {
+                id: 'b3',
+                title: 'Dune',
+                author: 'Frank Herbert',
+                genre: 'Science Fiction',
+                language: 'English',
+                year: 1965,
+                cover: 'https://placehold.co/150x225/0F172A/ffffff?text=Dune',
+                summary: 'Set in the distant future amidst a feudal interstellar society where various noble houses control planetary fiefs, Dune tells the story of young Paul Atreides, whose family accepts the stewardship of the desert planet Arrakis, the only source of "the spice" melange, the most important and valuable substance in the universe.',
+                reviews: [
+                    { user: 'SciFiFan', rating: 5, comment: 'A masterpiece of science fiction. Epic!' },
+                    { user: 'ClassicReader', rating: 4, comment: 'Dense but rewarding. A true classic.' }
+                ],
+                status: 'Available'
+            },
+            {
+                id: 'b4',
+                title: 'The Great Gatsby',
+                author: 'F. Scott Fitzgerald',
+                genre: 'Fiction',
+                language: 'English',
+                year: 1925,
+                cover: 'https://placehold.co/150x225/DC2626/ffffff?text=Gatsby',
+                summary: 'The story of the mysteriously wealthy Jay Gatsby and his love for the beautiful Daisy Buchanan, of lavish parties on Long Island at a time when "gin was the national drink and sex the national obsession," and of the heedless rich who lived and partied with an abandon that ended in tragedy.',
+                reviews: [
+                    { user: 'LitLover', rating: 5, comment: 'A timeless American classic.' },
+                    { user: 'StudentReader', rating: 3, comment: 'Interesting portrayal of the Jazz Age.' }
+                ],
+                status: 'Available'
+            },
+            {
+                id: 'b5',
+                title: 'Sapiens: A Brief History of Humankind',
+                author: 'Yuval Noah Harari',
+                genre: 'Non-fiction',
+                language: 'English',
+                year: 2014,
+                cover: 'https://placehold.co/150x225/10B981/ffffff?text=Sapiens',
+                summary: 'From the Big Bang to the present day, Yuval Noah Harari challenges everything we thought we knew about being human. This book explores how Homo sapiens came to dominate the world, how we organized ourselves into complex societies, and what our future might hold.',
+                reviews: [
+                    { user: 'Thinker', rating: 5, comment: 'Mind-blowing insights into human history.' },
+                    { user: 'Historian', rating: 4, comment: 'A captivating and accessible overview.' }
+                ],
+                status: 'Digital'
+            },
+            {
+                id: 'b6',
+                title: 'Pride and Prejudice',
+                author: 'Jane Austen',
+                genre: 'Fiction',
+                language: 'English',
+                year: 1813,
+                cover: 'https://placehold.co/150x225/EC4899/ffffff?text=Pride+Prejudice',
+                summary: 'A classic novel of manners, love, and social conventions among the English gentry. It tells the story of Elizabeth Bennet, one of five sisters, as she deals with issues of marriage, morality, and misconceptions.',
+                reviews: [
+                    { user: 'RomanceFan', rating: 5, comment: 'Timeless romance and wit!' },
+                    { user: 'ClassicFan', rating: 4, comment: 'Austen at her best.' }
+                ],
+                status: 'Available'
+            },
+        ];
+
+        const digitalResources = {
+            ebooks: [
+                { id: 'e1', title: 'The Art of War', author: 'Sun Tzu', cover: 'https://placehold.co/120x180/6366F1/ffffff?text=Art+of+War', link: '#' },
+                { id: 'e2', title: '1984', author: 'George Orwell', cover: 'https://placehold.co/120x180/7C3AED/ffffff?text=1984', link: '#' },
+                { id: 'e3', title: 'Meditations', author: 'Marcus Aurelius', cover: 'https://placehold.co/120x180/DB2777/ffffff?text=Meditations', link: '#' },
+            ],
+            audiobooks: [
+                { id: 'a1', title: 'The Hobbit', author: 'J.R.R. Tolkien', cover: 'https://placehold.co/120x180/F59E0B/ffffff?text=Hobbit', link: '#' },
+                { id: 'a2', title: 'Becoming', author: 'Michelle Obama', cover: 'https://placehold.co/120x180/EF4444/ffffff?text=Becoming', link: '#' },
+            ],
+            articles: [
+                { id: 'ar1', title: 'The Future of AI in Libraries', author: 'Dr. A.I. Researcher', date: '2024-06-15', link: '#' },
+                { id: 'ar2', title: 'Sustainable Practices in Community Libraries', author: 'E. Green', date: '2024-05-20', link: '#' },
+            ]
+        };
+
+        const events = [
+            {
+                id: 'ev1',
+                title: 'Author Talk: Matt Haig',
+                date: 'July 20, 2025',
+                time: '6:00 PM - 7:30 PM',
+                location: 'Main Auditorium',
+                description: 'Join us for an evening with bestselling author Matt Haig as he discusses his latest works and the inspirations behind them. Q&A and book signing to follow.'
+            },
+            {
+                id: 'ev2',
+                title: 'Children\'s Story Time',
+                date: 'July 22, 2025',
+                time: '10:00 AM - 11:00 AM',
+                location: 'Children\'s Section',
+                description: 'Bring your little ones for a fun-filled story time session with our librarians. Recommended for ages 3-7.'
+            },
+            {
+                id: 'ev3',
+                title: 'Coding for Beginners Workshop',
+                date: 'August 5, 2025',
+                time: '2:00 PM - 4:00 PM',
+                location: 'Computer Lab',
+                description: 'Learn the basics of coding in this interactive workshop. No prior experience needed. Laptops provided.'
+            },
+            {
+                id: 'ev4',
+                title: 'Book Club: "Where the Crawdads Sing"',
+                date: 'August 10, 2025',
+                time: '7:00 PM - 8:30 PM',
+                location: 'Meeting Room B',
+                description: 'Discuss Delia Owens\'s bestselling novel "Where the Crawdads Sing" with fellow book enthusiasts. New members always welcome!'
+            }
+        ];
+
+        const newsPosts = [
+            {
+                id: 'n1',
+                title: 'New Digital Resources Added!',
+                date: 'June 28, 2025',
+                summary: 'We\'ve expanded our digital collection with hundreds of new e-books and audiobooks. Explore them today!',
+                content: 'Full details about the new digital resources, how to access them, and highlights of popular additions. We are constantly working to expand our digital offerings to provide you with the best possible access to knowledge from anywhere.'
+            },
+            {
+                id: 'n2',
+                title: 'Summer Reading Challenge Kicks Off',
+                date: 'June 15, 2025',
+                summary: 'Join our annual Summer Reading Challenge and win exciting prizes! Open to all ages.',
+                content: 'Information about how to register, track your reading, and the various prize tiers. The challenge aims to foster a love for reading throughout the community.'
+            },
+            {
+                id: 'n3',
+                title: 'Volunteer Opportunities at the Library',
+                date: 'June 10, 2025',
+                summary: 'Looking to give back to your community? The library is seeking volunteers for various roles.',
+                content: 'Details on available volunteer positions, how to apply, and the benefits of volunteering with us. Your contribution helps us serve the community better.'
+            }
+        ];
+
+        const faqs = [
+            {
+                question: 'How do I get a library card?',
+                answer: 'You can register for a library card online or visit our front desk with a valid ID and proof of address. Online registration requires an in-person visit to finalize.'
+            },
+            {
+                question: 'What are the library\'s operating hours?',
+                answer: 'Our main branch is open Monday-Friday: 9 AM - 8 PM, Saturday: 10 AM - 6 PM, Sunday: Closed. Check our "Contact Us" page for holiday hours and branch-specific timings.'
+            },
+            {
+                question: 'How many books can I borrow at once?',
+                answer: 'Members can borrow up to 20 physical items and 10 digital items (e-books/audiobooks) at a time. Special collections may have different limits.'
+            },
+            {
+                question: 'How do I renew a book?',
+                answer: 'You can renew books online through your "User Account" dashboard, by calling the library, or in person at the circulation desk. Items with holds cannot be renewed.'
+            },
+            {
+                question: 'Do you offer free Wi-Fi?',
+                answer: 'Yes, free Wi-Fi is available throughout the library. Connect to the "LibraryGuest" network. No password is required.'
+            }
+        ];
+
+        // --- User-specific simulated data (for logged-in user) ---
+        let userBorrowed = [];
+        let userHistory = [];
+
+        // --- Utility Functions ---
+
+        /**
+         * Displays a temporary message box at the bottom right of the screen.
+         * @param {string} message - The message to display.
+         * @param {string} type - 'success', 'error', 'info'. Determines color.
+         */
+        function showMessage(message, type = 'info') {
+            messageText.textContent = message;
+            messageBox.classList.remove('hidden', 'bg-red-500', 'bg-green-500', 'bg-blue-500');
+
+            switch (type) {
+                case 'success':
+                    messageBox.classList.add('bg-green-500');
+                    break;
+                case 'error':
+                    messageBox.classList.add('bg-red-500');
+                    break;
+                case 'info':
+                default:
+                    messageBox.classList.add('bg-blue-500');
+                    break;
+            }
+
+            messageBox.classList.remove('hidden');
+            setTimeout(() => {
+                messageBox.classList.add('hidden');
+            }, 3000); // Hide after 3 seconds
+        }
+
+        /**
+         * Shows a specific section and hides all others.
+         * Updates active navigation link.
+         * @param {string} sectionId - The ID of the section to show (e.g., 'home-section').
+         */
+        function showSection(sectionId) {
+            sections.forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+
+            // Update active navigation link
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.section + '-section' === sectionId) {
+                    link.classList.add('active');
+                }
+            });
+            // Handle mobile menu links
+            mobileNavMenu.querySelectorAll('a').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.section + '-section' === sectionId) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Close mobile menu if open
+            mobileNavMenu.classList.add('hidden');
+        }
+
+        // --- Header and Navigation Logic ---
+
+        // Event listener for main navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(link.dataset.section + '-section');
+            });
+        });
+
+        // Mobile menu toggle
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileNavMenu.classList.toggle('hidden');
+        });
+
+        // Event listener for mobile navigation links
+        mobileNavMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                showSection(link.dataset.section + '-section');
+            });
+        });
+
+        // --- Home Section Logic ---
+
+        /**
+         * Handles search from the home page, navigates to catalog, and performs search.
+         */
+        function performSearchFromHome() {
+            const searchInput = document.getElementById('home-search-input');
+            const query = searchInput.value.trim();
+            if (query) {
+                showSection('catalog-section');
+                document.getElementById('catalog-search-input').value = query;
+                performCatalogSearch();
+            } else {
+                showMessage('Please enter a search query.', 'info');
+            }
+        }
+
+        // --- Catalog Section Logic ---
+
+        /**
+         * Renders book cards in the catalog results container.
+         * @param {Array} booksToDisplay - Array of book objects.
+         */
+        function renderBookCards(booksToDisplay) {
+            catalogResultsContainer.innerHTML = ''; // Clear previous results
+            if (booksToDisplay.length === 0) {
+                noResultsMessage.classList.remove('hidden');
+                return;
+            }
+            noResultsMessage.classList.add('hidden');
+
+            booksToDisplay.forEach(book => {
+                const bookCard = `
+                    <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden cursor-pointer" onclick="openBookDetailsModal('${book.id}')">
+                        <img src="${book.cover}" alt="${book.title} Cover" class="w-full h-64 object-cover">
+                        <div class="p-4">
+                            <h3 class="text-lg font-semibold text-gray-900 truncate mb-1">${book.title}</h3>
+                            <p class="text-sm text-gray-600 mb-2">${book.author}</p>
+                            <span class="inline-block px-3 py-1 text-xs font-medium rounded-full ${book.status === 'Available' ? 'bg-green-100 text-green-800' : book.status === 'On Loan' ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800'}">
+                                ${book.status}
+                            </span>
+                        </div>
+                    </div>
+                `;
+                catalogResultsContainer.insertAdjacentHTML('beforeend', bookCard);
+            });
+        }
+
+        /**
+         * Performs search on the catalog data based on input query.
+         */
+        function performCatalogSearch() {
+            const query = document.getElementById('catalog-search-input').value.toLowerCase();
+            const filteredBooks = books.filter(book =>
+                book.title.toLowerCase().includes(query) ||
+                book.author.toLowerCase().includes(query) ||
+                book.genre.toLowerCase().includes(query)
+            );
+            renderBookCards(filteredBooks);
+        }
+
+        /**
+         * Applies filters to the catalog data and re-renders results.
+         */
+        function applyFilters() {
+            const genre = document.getElementById('filter-genre').value;
+            const author = document.getElementById('filter-author').value.toLowerCase();
+            const language = document.getElementById('filter-language').value;
+            const year = document.getElementById('filter-year').value;
+            const availability = document.getElementById('filter-availability').value;
+
+            const filteredBooks = books.filter(book => {
+                const matchesGenre = genre === '' || book.genre === genre;
+                const matchesAuthor = author === '' || book.author.toLowerCase().includes(author);
+                const matchesLanguage = language === '' || book.language === language;
+                const matchesYear = year === '' || book.year == year; // Use == for number comparison
+                const matchesAvailability = availability === '' || book.status === availability;
+
+                return matchesGenre && matchesAuthor && matchesLanguage && matchesYear && matchesAvailability;
+            });
+            renderBookCards(filteredBooks);
+        }
+
+        /**
+         * Opens the book details modal and populates it with book data.
+         * @param {string} bookId - The ID of the book to display.
+         */
+        function openBookDetailsModal(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book) {
+                showMessage('Book not found.', 'error');
+                return;
+            }
+
+            document.getElementById('book-cover').src = book.cover;
+            document.getElementById('book-title').textContent = book.title;
+            document.getElementById('book-author').textContent = `By ${book.author}`;
+            document.getElementById('book-genre').textContent = `Genre: ${book.genre}`;
+            document.getElementById('book-year').textContent = `Published: ${book.year}`;
+            document.getElementById('book-language').textContent = `Language: ${book.language}`;
+            document.getElementById('book-summary').textContent = book.summary;
+
+            const statusElement = document.getElementById('book-status');
+            statusElement.textContent = `Status: ${book.status}`;
+            statusElement.className = `text-lg font-semibold mb-4 ${book.status === 'Available' ? 'text-green-600' : book.status === 'On Loan' ? 'text-yellow-600' : 'text-blue-600'}`;
+
+            const borrowButton = document.getElementById('borrow-button');
+            if (book.status === 'Available') {
+                borrowButton.textContent = 'Borrow Now';
+                borrowButton.onclick = () => {
+                    if (currentUser) {
+                        showMessage(`${book.title} has been borrowed! (Simulated)`, 'success');
+                        userBorrowed.push({ ...book, dueDate: '2025-07-30' }); // Simulate borrowing
+                        book.status = 'On Loan'; // Update status
+                        renderUserDashboard(); // Re-render dashboard
+                        closeBookDetailsModal();
+                        renderBookCards(books); // Re-render catalog to show updated status
+                    } else {
+                        showMessage('Please log in to borrow books.', 'info');
+                        showSection('user-account-section');
+                        closeBookDetailsModal();
+                    }
+                };
+                borrowButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                borrowButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            } else if (book.status === 'On Loan') {
+                borrowButton.textContent = `On Loan (Due: ${book.dueDate || 'N/A'})`;
+                borrowButton.onclick = () => showMessage('This book is currently on loan.', 'info');
+                borrowButton.classList.add('bg-gray-400', 'cursor-not-allowed');
+                borrowButton.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+            } else if (book.status === 'Digital') {
+                borrowButton.textContent = 'Read Online';
+                borrowButton.onclick = () => showMessage('Opening digital version... (Simulated)', 'info');
+                borrowButton.classList.remove('bg-gray-400', 'cursor-not-allowed');
+                borrowButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            }
+
+
+            // Render reviews
+            const reviewsContainer = document.getElementById('book-reviews');
+            reviewsContainer.innerHTML = '';
+            if (book.reviews && book.reviews.length > 0) {
+                book.reviews.forEach(review => {
+                    reviewsContainer.insertAdjacentHTML('beforeend', `
+                        <div class="border-b border-gray-200 pb-3">
+                            <p class="font-semibold text-gray-800">${review.user} - Rating: ${'⭐'.repeat(review.rating)}</p>
+                            <p class="text-gray-700 text-sm">${review.comment}</p>
+                        </div>
+                    `);
+                });
+            } else {
+                reviewsContainer.innerHTML = '<p class="text-gray-600 text-sm">No reviews yet. Be the first!</p>';
+            }
+
+            // Render related books (simple example: same genre, different book)
+            const relatedBooksContainer = document.getElementById('related-books');
+            relatedBooksContainer.innerHTML = '';
+            const related = books.filter(b => b.genre === book.genre && b.id !== book.id).slice(0, 3);
+            if (related.length > 0) {
+                related.forEach(rb => {
+                    relatedBooksContainer.insertAdjacentHTML('beforeend', `
+                        <div class="text-center cursor-pointer" onclick="openBookDetailsModal('${rb.id}')">
+                            <img src="${rb.cover}" alt="${rb.title} Cover" class="w-24 h-36 object-cover mx-auto rounded-md shadow-sm mb-2">
+                            <p class="text-sm font-medium text-gray-800 truncate">${rb.title}</p>
+                            <p class="text-xs text-gray-600">${rb.author}</p>
+                        </div>
+                    `);
+                });
+            } else {
+                relatedBooksContainer.innerHTML = '<p class="text-gray-600 text-sm col-span-full">No related books found.</p>';
+            }
+
+            bookDetailsModal.classList.remove('hidden');
+        }
+
+        /**
+         * Closes the book details modal.
+         */
+        function closeBookDetailsModal() {
+            bookDetailsModal.classList.add('hidden');
+        }
+
+        // --- User Account Logic ---
+
+        /**
+         * Handles user login/registration. (Simulated)
+         * @param {Event} event - The form submission event.
+         */
+        function handleAuth(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value; // Password not actually used for auth
+
+            if (email && password) {
+                // Simulate successful login/registration
+                currentUser = email;
+                showMessage(`Welcome, ${currentUser}! You are logged in.`, 'success');
+                updateAuthUI();
+                renderUserDashboard();
+            } else {
+                showMessage('Please enter both email and password.', 'error');
+            }
+        }
+
+        /**
+         * Logs out the current user. (Simulated)
+         */
+        function logoutUser() {
+            currentUser = null;
+            userBorrowed = []; // Clear borrowed items on logout
+            userHistory = []; // Clear history on logout
+            showMessage('You have been logged out.', 'info');
+            updateAuthUI();
+            showSection('home-section'); // Redirect to home after logout
+        }
+
+        /**
+         * Updates the visibility of login/dashboard/logout buttons based on currentUser status.
+         */
+        function updateAuthUI() {
+            if (currentUser) {
+                loginBtn.classList.add('hidden');
+                dashboardBtn.classList.remove('hidden');
+                logoutBtn.classList.remove('hidden');
+                authForm.classList.add('hidden');
+                memberDashboard.classList.remove('hidden');
+                userDisplayEmail.textContent = currentUser;
+            } else {
+                loginBtn.classList.remove('hidden');
+                dashboardBtn.classList.add('hidden');
+                logoutBtn.classList.add('hidden');
+                authForm.classList.remove('hidden');
+                memberDashboard.classList.add('hidden');
+            }
+        }
+
+        /**
+         * Renders the user's borrowed items and borrowing history.
+         * (Uses simulated data, in real app would fetch from backend)
+         */
+        function renderUserDashboard() {
+            // Render Borrowed Items
+            borrowedItemsContainer.innerHTML = '';
+            if (userBorrowed.length > 0) {
+                noBorrowedMessage.classList.add('hidden');
+                userBorrowed.forEach(item => {
+                    borrowedItemsContainer.insertAdjacentHTML('beforeend', `
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-md border border-gray-200">
+                            <div>
+                                <p class="font-semibold text-gray-800">${item.title}</p>
+                                <p class="text-sm text-gray-600">Due: ${item.dueDate}</p>
+                            </div>
+                            <button class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-3 py-1 rounded-md" onclick="renewBook('${item.id}')">Renew</button>
+                        </div>
+                    `);
+                });
+            } else {
+                noBorrowedMessage.classList.remove('hidden');
+            }
+
+            // Render Borrowing History (simulated: move borrowed to history on renew/return)
+            borrowingHistoryContainer.innerHTML = '';
+            if (userHistory.length > 0) {
+                noHistoryMessage.classList.add('hidden');
+                userHistory.forEach(item => {
+                    borrowingHistoryContainer.insertAdjacentHTML('beforeend', `
+                        <div class="p-3 bg-gray-50 rounded-md border border-gray-200">
+                            <p class="font-semibold text-gray-800">${item.title}</p>
+                            <p class="text-sm text-gray-600">Returned: ${item.returnDate || 'N/A'}</p>
+                        </div>
+                    `);
+                });
+            } else {
+                noHistoryMessage.classList.remove('hidden');
+            }
+        }
+
+        /**
+         * Simulates renewing a book.
+         * @param {string} bookId - The ID of the book to renew.
+         */
+        function renewBook(bookId) {
+            const bookIndex = userBorrowed.findIndex(item => item.id === bookId);
+            if (bookIndex > -1) {
+                const book = userBorrowed[bookIndex];
+                // Simulate moving to history and then re-borrowing with new due date
+                userHistory.push({ ...book, returnDate: new Date().toLocaleDateString() });
+                userBorrowed.splice(bookIndex, 1); // Remove from borrowed
+                // Simulate re-borrowing for simplicity, in real app this would be a separate action
+                userBorrowed.push({ ...book, dueDate: '2025-08-15' }); // New due date
+                showMessage(`"${book.title}" renewed successfully!`, 'success');
+                renderUserDashboard();
+            }
+        }
+
+        // --- Digital Library Logic ---
+
+        /**
+         * Renders digital resources (e-books, audiobooks, articles).
+         */
+        function renderDigitalResources() {
+            // Render E-books
+            ebookListContainer.innerHTML = '';
+            digitalResources.ebooks.forEach(ebook => {
+                ebookListContainer.insertAdjacentHTML('beforeend', `
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm flex flex-col items-center text-center">
+                        <img src="${ebook.cover}" alt="${ebook.title} Cover" class="w-24 h-36 object-cover rounded-md mb-3">
+                        <h4 class="font-semibold text-gray-900 mb-1">${ebook.title}</h4>
+                        <p class="text-sm text-gray-600 mb-3">${ebook.author}</p>
+                        <a href="${ebook.link}" target="_blank" class="bg-blue-500 hover:bg-blue-600 text-white text-sm px-4 py-2 rounded-md transition-colors duration-200" onclick="showMessage('Opening e-book... (Simulated)', 'info'); return true;">Read Online</a>
+                    </div>
+                `);
+            });
+
+            // Render Audiobooks
+            audiobookListContainer.innerHTML = '';
+            digitalResources.audiobooks.forEach(audiobook => {
+                audiobookListContainer.insertAdjacentHTML('beforeend', `
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm flex flex-col items-center text-center">
+                        <img src="${audiobook.cover}" alt="${audiobook.title} Cover" class="w-24 h-36 object-cover rounded-md mb-3">
+                        <h4 class="font-semibold text-gray-900 mb-1">${audiobook.title}</h4>
+                        <p class="text-sm text-gray-600 mb-3">${audiobook.author}</p>
+                        <a href="${audiobook.link}" target="_blank" class="bg-purple-500 hover:bg-purple-600 text-white text-sm px-4 py-2 rounded-md transition-colors duration-200" onclick="showMessage('Playing audiobook... (Simulated)', 'info'); return true;">Listen Now</a>
+                    </div>
+                `);
+            });
+
+            // Render Research Articles
+            articleListContainer.innerHTML = '';
+            digitalResources.articles.forEach(article => {
+                articleListContainer.insertAdjacentHTML('beforeend', `
+                    <div class="bg-gray-50 p-4 rounded-lg shadow-sm">
+                        <h4 class="font-semibold text-gray-900 mb-1"><a href="${article.link}" target="_blank" class="hover:underline" onclick="showMessage('Opening article... (Simulated)', 'info'); return true;">${article.title}</a></h4>
+                        <p class="text-sm text-gray-600 mb-1">By ${article.author}</p>
+                        <p class="text-xs text-gray-500">Published: ${article.date}</p>
+                    </div>
+                `);
+            });
+        }
+
+        // --- Events Section Logic ---
+
+        /**
+         * Renders the list of events.
+         */
+        function renderEvents() {
+            eventsListContainer.innerHTML = '';
+            if (events.length === 0) {
+                noEventsMessage.classList.remove('hidden');
+                return;
+            }
+            noEventsMessage.classList.add('hidden');
+
+            events.forEach(event => {
+                eventsListContainer.insertAdjacentHTML('beforeend', `
+                    <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">${event.title}</h3>
+                        <p class="text-gray-700 mb-1">📅 ${event.date}</p>
+                        <p class="text-gray-700 mb-3">⏰ ${event.time}</p>
+                        <p class="text-gray-600 text-sm mb-4 truncate">${event.description}</p>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-md font-semibold transition-colors duration-200" onclick="openEventDetailsModal('${event.id}')">View Details</button>
+                    </div>
+                `);
+            });
+        }
+
+        /**
+         * Opens the event details modal and populates it.
+         * @param {string} eventId - The ID of the event to display.
+         */
+        function openEventDetailsModal(eventId) {
+            const event = events.find(e => e.id === eventId);
+            if (!event) {
+                showMessage('Event not found.', 'error');
+                return;
+            }
+
+            document.getElementById('event-modal-title').textContent = event.title;
+            document.getElementById('event-modal-date').textContent = `Date: ${event.date}`;
+            document.getElementById('event-modal-time').textContent = `Time: ${event.time}`;
+            document.getElementById('event-modal-location').textContent = `Location: ${event.location}`;
+            document.getElementById('event-modal-description').textContent = event.description;
+
+            // Set up registration button
+            const registerButton = document.getElementById('register-event-button');
+            registerButton.onclick = () => registerForEvent(event.title);
+
+            eventDetailsModal.classList.remove('hidden');
+        }
+
+        /**
+         * Closes the event details modal.
+         */
+        function closeEventDetailsModal() {
+            eventDetailsModal.classList.add('hidden');
+        }
+
+        /**
+         * Simulates event registration.
+         * @param {string} eventTitle - The title of the event being registered for.
+         */
+        function registerForEvent(eventTitle) {
+            if (currentUser) {
+                showMessage(`You have successfully registered for "${eventTitle}"! (Simulated)`, 'success');
+                closeEventDetailsModal();
+            } else {
+                showMessage('Please log in to register for events.', 'info');
+                showSection('user-account-section');
+                closeEventDetailsModal();
+            }
+        }
+
+        // --- Library Services Section Logic ---
+
+        /**
+         * Renders the FAQ accordion.
+         */
+        function renderFAQs() {
+            faqAccordion.innerHTML = '';
+            faqs.forEach((faq, index) => {
+                faqAccordion.insertAdjacentHTML('beforeend', `
+                    <div class="border border-gray-200 rounded-md overflow-hidden">
+                        <button class="w-full text-left p-4 bg-gray-100 hover:bg-gray-200 font-semibold text-gray-800 flex justify-between items-center" onclick="toggleFAQ(${index})">
+                            ${faq.question}
+                            <span id="faq-icon-${index}" class="text-xl">+</span>
+                        </button>
+                        <div id="faq-content-${index}" class="p-4 text-gray-700 hidden">
+                            ${faq.answer}
+                        </div>
+                    </div>
+                `);
+            });
+        }
+
+        /**
+         * Toggles the visibility of an FAQ answer.
+         * @param {number} index - The index of the FAQ to toggle.
+         */
+        function toggleFAQ(index) {
+            const content = document.getElementById(`faq-content-${index}`);
+            const icon = document.getElementById(`faq-icon-${index}`);
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.textContent = '-';
+            } else {
+                content.classList.add('hidden');
+                icon.textContent = '+';
+            }
+        }
+
+        // --- News & Blog Section Logic ---
+
+        /**
+         * Renders news and blog posts.
+         */
+        function renderNewsAndBlog() {
+            newsBlogListContainer.innerHTML = '';
+            if (newsPosts.length === 0) {
+                noNewsMessage.classList.remove('hidden');
+                return;
+            }
+            noNewsMessage.classList.add('hidden');
+
+            newsPosts.forEach(post => {
+                newsBlogListContainer.insertAdjacentHTML('beforeend', `
+                    <div class="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 p-6">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2">${post.title}</h3>
+                        <p class="text-gray-600 text-sm mb-3">Published: ${post.date}</p>
+                        <p class="text-gray-700 mb-4">${post.summary}</p>
+                        <button class="text-blue-600 hover:underline font-medium" onclick="showMessage('Reading full article for: ${post.title} (Simulated)', 'info');">Read More</button>
+                    </div>
+                `);
+            });
+        }
+
+        // --- Contact Us Section Logic ---
+
+        /**
+         * Simulates contact form submission.
+         * @param {Event} event - The form submission event.
+         */
+        function submitContactForm(event) {
+            event.preventDefault();
+            const name = document.getElementById('contact-name').value;
+            const email = document.getElementById('contact-email').value;
+            const message = document.getElementById('contact-message').value;
+
+            if (name && email && message) {
+                showMessage('Your message has been sent! We will get back to you soon. (Simulated)', 'success');
+                document.getElementById('contact-form').reset(); // Clear form
+            } else {
+                showMessage('Please fill in all fields.', 'error');
+            }
+        }
+
+        // --- Initialization ---
+
+        /**
+         * Initializes the website by rendering initial content and setting up UI.
+         */
+        function initializeWebsite() {
+            showSection('home-section'); // Start on the home page
+            updateAuthUI(); // Set initial auth UI state
+            renderBookCards(books); // Render initial catalog
+            renderDigitalResources(); // Render digital library content
+            renderEvents(); // Render events
+            renderFAQs(); // Render FAQs
+            renderNewsAndBlog(); // Render news/blog
+        }
+
+        // Run initialization when the DOM is fully loaded
+        document.addEventListener('DOMContentLoaded', initializeWebsite);
+    </script>
+</body>
+</html>
